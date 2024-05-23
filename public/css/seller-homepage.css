@@ -1,0 +1,50 @@
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  
+  header, footer {
+    flex-shrink: 0;
+  }
+  
+  main {
+    flex: 1;
+  }
+  
+  .navbar-brand {
+    font-size: 1.5rem;
+  }
+
+  .navbar-collapse {
+    position: absolute;
+    right: 0;
+  }
+  
+  
+  
+  .navbar-nav .nav-item {
+    margin-left: 15px; /* Khoảng cách giữa các mục */
+  }
+  
+  
+  .form-inline {
+    display: flex;
+  }
+  
+  .form-inline input {
+    width: 200px; /* Đặt chiều rộng của thanh tìm kiếm */
+    margin-right: 10px;
+  }
+  
+  footer {
+    background-color: #343a40;
+    color: white;
+    text-align: center;
+    padding: 1rem 0;
+  }
+  
+  footer p {
+    margin: 0;
+  }
+  
