@@ -33,7 +33,7 @@ body {
   }
   
   .form-inline input {
-    width: 200px; /* Đặt chiều rộng của thanh tìm kiếm */
+    width: 350px; /* Đặt chiều rộng của thanh tìm kiếm */
     margin-right: 10px;
   }
   
