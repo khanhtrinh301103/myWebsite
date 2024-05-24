@@ -33,6 +33,7 @@ app.get('/', (req, res) => {
   res.redirect('/auth/login'); // Chuyển hướng đến trang đăng nhập mặc định
 });
 
-app.listen(3000, () => {
-  console.log('Server is running on port 3000');
+const PORT = process.env.PORT || 3000; // Đảm bảo cổng 3000 được sử dụng
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });

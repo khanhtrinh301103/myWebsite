@@ -11,15 +11,23 @@ router.get('/', (req, res) => {
 
 // Route để xử lý đăng ký người dùng
 router.post('/', async (req, res) => {
-  const { email, password, role } = req.body;
+  const { username, email, password, confirmPassword, fullName, phoneNumber, role } = req.body;
+
+  // Kiểm tra xem password và confirm password có giống nhau không
+  if (password !== confirmPassword) {
+    return res.status(400).send('Passwords do not match');
+  }
 
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
 
-    // Lưu vai trò của người dùng vào Firestore
+    // Lưu thông tin người dùng vào Firestore
     await setDoc(doc(db, "users", user.uid), {
+      username: username,
       email: email,
+      fullName: fullName,
+      phoneNumber: phoneNumber,
       role: role
     });
 
