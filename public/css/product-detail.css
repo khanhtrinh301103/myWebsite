@@ -1,0 +1,30 @@
+body {
+    background-color: #f8f9fa;
+}
+
+.product-detail-box {
+    border-radius: 20px; /* Bo góc */
+    padding: 20px;
+    background-color: rgba(235, 235, 235, 0.9); /* Màu nền trong suốt */
+}
+
+.main-image {
+    width: 100%;
+    height: auto;
+    border: 1px solid #ddd; /* Viền cho ảnh chính */
+    padding: 5px;
+}
+
+.additional-images {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 10px;
+}
+
+.additional-images img {
+    width: 100px;
+    height: 100px;
+    border: 1px solid #ddd; /* Viền cho ảnh phụ */
+    padding: 5px;
+}
+

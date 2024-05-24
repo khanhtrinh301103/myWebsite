@@ -30,8 +30,28 @@
         <input type="text" class="form-control" id="interiorStyle" name="interiorStyle" required>
       </div>
       <div class="form-group">
-        <label for="productImage">Product Image</label>
+        <label for="description">Description</label>
+        <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
+      </div>
+      <div class="form-group">
+        <label for="quantity">Quantity</label>
+        <input type="number" class="form-control" id="quantity" name="quantity" required>
+      </div>
+      <div class="form-group">
+        <label for="productImage">Main Product Image</label>
         <input type="file" class="form-control-file" id="productImage" name="productImage" required>
+      </div>
+      <div class="form-group">
+        <label for="additionalImage1">Additional Product Image 1</label>
+        <input type="file" class="form-control-file" id="additionalImage1" name="additionalImages" required>
+      </div>
+      <div class="form-group">
+        <label for="additionalImage2">Additional Product Image 2</label>
+        <input type="file" class="form-control-file" id="additionalImage2" name="additionalImages" required>
+      </div>
+      <div class="form-group">
+        <label for="additionalImage3">Additional Product Image 3</label>
+        <input type="file" class="form-control-file" id="additionalImage3" name="additionalImages" required>
       </div>
       <button type="submit" class="btn btn-primary">Add Product</button>
     </form>
