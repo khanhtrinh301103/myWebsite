@@ -1,0 +1,38 @@
+<div class="filter-container">
+    <div class="card">
+      <div class="card-header">
+        Filter Products
+      </div>
+      <div class="card-body">
+        <form>
+          <div class="form-group">
+            <label for="category">Category</label>
+            <select id="category" class="form-control">
+              <option value="">All</option>
+              <!-- Add your categories here -->
+              <option value="category1">Category 1</option>
+              <option value="category2">Category 2</option>
+              <option value="category3">Category 3</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="interiorStyle">Interior Style</label>
+            <select id="interiorStyle" class="form-control">
+              <option value="">All</option>
+              <!-- Add your interior styles here -->
+              <option value="style1">Style 1</option>
+              <option value="style2">Style 2</option>
+              <option value="style3">Style 3</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="priceRange">Price Range</label>
+            <input type="range" class="form-control-range" id="priceRange" min="1" max="10000" step="1" oninput="this.nextElementSibling.value = this.value">
+            <output>$1</output>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block">Apply Filters</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  

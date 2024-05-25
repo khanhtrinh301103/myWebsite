@@ -34,4 +34,28 @@ router.post('/login', async (req, res) => {
   }
 });
 
+//Đảm bảo thông tin người dùng được lưu trữ trong Firestore khi đăng ký
+router.post('/register', async (req, res) => {
+  const { email, password, username, fullName, phoneNumber, role } = req.body;
+
+  try {
+    const userCredential = await createUserWithEmailAndPassword(getAuth(), email, password);
+    const user = userCredential.user;
+
+    // Lưu thông tin người dùng vào Firestore
+    await setDoc(doc(db, 'users', user.uid), {
+      email,
+      username,
+      fullName,
+      phoneNumber,
+      role
+    });
+
+    res.redirect('/auth/login');
+  } catch (error) {
+    console.error('Error during registration:', error);
+    res.redirect('/auth/register');
+  }
+});
+
 module.exports = router;

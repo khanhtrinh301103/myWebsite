@@ -2,6 +2,17 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  margin: 0;
+}
+
+.flex-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.container-fluid {
+  flex-grow: 1;
 }
 
 header, footer {
@@ -44,3 +55,24 @@ footer {
 footer p {
   margin: 0;
 }
+
+.products-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.products-container .row {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.products-container .card {
+  width: 350px;
+}
+
+.products-container .col-md-2 {
+  flex: 1 0 18%; /* Adjust the flex basis to get 5 cards per row */
+}
+

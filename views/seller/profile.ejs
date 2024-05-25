@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Seller Profile</title>
+  <!-- Bootstrap CSS -->
+  <link href="/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/css/profile.css" rel="stylesheet">
+  <link href="/css/seller-homepage.css" rel="stylesheet">
+</head>
+<body>
+  <div class="d-flex flex-column min-vh-100">
+    <%- include('../partials/seller/header.ejs') %>
+
+    <div class="container mt-4 flex-grow-1">
+      <h1>Profile</h1>
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Profile Information</h5>
+          <p class="card-text"><strong>Email:</strong> <%= user.email %></p>
+          <p class="card-text"><strong>Full Name:</strong> <%= user.fullName %></p>
+          <p class="card-text"><strong>Phone Number:</strong> <%= user.phoneNumber %></p>
+          <p class="card-text"><strong>Username:</strong> <%= user.username %></p>
+          <p class="card-text"><strong>Role:</strong> <%= user.role %></p>
+        </div>
+      </div>
+    </div>
+
+    <%- include('../partials/seller/footer.ejs') %>
+  </div>
+
+  <!-- Bootstrap JS and dependencies -->
+  <script src="/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

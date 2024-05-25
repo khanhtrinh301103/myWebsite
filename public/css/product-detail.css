@@ -3,9 +3,10 @@ body {
 }
 
 .product-detail-box {
-    border-radius: 20px; /* Bo góc */
+    border: 2px solid #ccc; /* Màu và độ rộng của viền */
+    border-radius: 8px; /* Bo góc */
     padding: 20px;
-    background-color: rgba(235, 235, 235, 0.9); /* Màu nền trong suốt */
+    background-color: rgba(255, 255, 255, 0.9); /* Màu nền trong suốt */
 }
 
 .main-image {
@@ -15,16 +16,28 @@ body {
     padding: 5px;
 }
 
+h2{
+    font-size: 60px;
+    color: #62a6ff;
+    text-transform: capitalize;
+}
+
+h3{
+    font-size: 20px;
+    border-bottom: 1px solid rgb(180, 180, 180);
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
 .additional-images {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     margin-top: 10px;
 }
 
 .additional-images img {
-    width: 100px;
-    height: 100px;
+    width: calc(100% / 3 - 10px); /* Đảm bảo tỷ lệ khung hình phù hợp */
+    height: auto;
     border: 1px solid #ddd; /* Viền cho ảnh phụ */
     padding: 5px;
 }
-

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manage Products</title>
+  <link href="/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/css/manage-products.css" rel="stylesheet"> <!-- Link đến file CSS mới -->
+  <link href="/css/seller-homepage.css" rel="stylesheet">
+</head>
+<body>
+  <%- include('../partials/seller/header.ejs') %>
+
+  <main class="container mt-4">
+    <h2>Manage Products</h2>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Product Name</th>
+          <th>Price</th>
+          <th>Category</th>
+          <th>Interior Style</th>
+          <th>Quantity</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% products.forEach(function(product) { %>
+          <tr>
+            <td><%= product.productName %></td>
+            <td>$<%= product.price %></td>
+            <td><%= product.category %></td>
+            <td><%= product.interiorStyle %></td>
+            <td><%= product.quantity%></td>
+            <td>
+              <a href="/seller/edit-product/<%= product.id %>" class="btn btn-warning">Edit</a>
+              <form action="/seller/delete-product/<%= product.id %>" method="POST" style="display:inline;">
+                <button type="submit" class="btn btn-danger">Delete</button>
+              </form>
+            </td>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  </main>
+
+  <%- include('../partials/seller/footer.ejs') %>
+</body>
+</html>

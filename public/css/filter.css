@@ -1,0 +1,21 @@
+.filter-container {
+    margin-top: 20px;
+  }
+  
+  .card {
+    box-shadow: none;
+  }
+  
+  .card-header {
+    font-size: 1.25rem;
+    font-weight: bold;
+  }
+  
+  .card-body .form-group {
+    margin-bottom: 1rem;
+  }
+  
+  .card-body button {
+    margin-top: 1rem;
+  }
+  
