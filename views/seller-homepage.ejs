@@ -7,44 +7,40 @@
   <!-- Bootstrap CSS -->
   <link href="/css/bootstrap.min.css" rel="stylesheet">
   <link href="/css/seller-homepage.css" rel="stylesheet">
-  <link href="/css/filter.css" rel="stylesheet">
 </head>
 <body>
   <%- include('partials/seller/header.ejs') %>
 
   <!-- Main Content -->
-  <div class="flex-wrapper">
-    <div class="container-fluid flex-grow-1">
-      <div class="row">
-        <div class="col-md-2">
-          <%- include('partials/seller/filter.ejs') %>
-        </div>
-        <div class="col-md-10">
-          <div class="products-container">
-            <h2>Welcome, Seller!</h2>
-            <div class="row">
-              <% products.forEach(function(product) { %>
-                <div class="col-md-2">
-                  <div class="card mb-4 shadow-sm">
-                    <a href="/seller/product/<%= product.id %>">
-                      <img src="<%= product.productImage %>" class="card-img-top" alt="Product Image">
-                    </a>
-                    <div class="card-body">
-                      <h5 class="card-title"><%= product.productName %></h5>
-                      <p class="card-text">Price: $<%= product.price %></p>
-                      <p class="card-text">Category: <%= product.category %></p>
-                      <p class="card-text">Interior Style: <%= product.interiorStyle %></p>
-                    </div>
-                  </div>
+  <main class="container-fluid mt-4">
+    <div class="row">
+      <div class="col-md-3">
+        <%- include('partials/seller/filter.ejs') %>
+      </div>
+      <div class="col-md-6">
+        <h2>Welcome, Seller!</h2>
+        <div class="row">
+          <% products.forEach(function(product) { %>
+            <div class="col-md-4">
+              <div class="card mb-4 shadow-sm">
+                <a href="/seller/product/<%= product.id %>">
+                  <img src="<%= product.productImage %>" class="card-img-top" alt="Product Image">
+                </a>
+                <div class="card-body">
+                  <h5 class="card-title"><%= product.productName %></h5>
+                  <p class="card-text"><strong>Price: </strong>$<%= product.price %></p>
+                  <p class="card-text"><strong>Category: </strong><%= product.category %></p>
+                  <p class="card-text"><strong>Interior style: </strong><%= product.interiorStyle %></p>
                 </div>
-              <% }); %>
+              </div>
             </div>
-          </div>
+          <% }); %>
         </div>
       </div>
     </div>
-    <%- include('partials/seller/footer.ejs') %>
-  </div>
+  </main>
+
+  <%- include('partials/seller/footer.ejs') %>
 
   <!-- Bootstrap JS and dependencies -->
   <script src="/js/bootstrap.bundle.min.js"></script>
