@@ -1,30 +1,37 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <a class="navbar-brand" href="/seller/homepage">Furniture Shop</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarNav">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item">
-        <a class="nav-link" href="/seller/homepage">Home</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/seller/add-product">Add Product</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/seller/manage-products">Manage Products</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/seller/orders">Orders</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/seller/profile">Profile</a>
-      </li>
-    </ul>
-    <!-- Search Engine -->
-    <form class="form-inline my-2 my-lg-0" method="GET" action="/seller/search">
-      <input class="form-control mr-sm-2" type="search" name="query" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-    </form>
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/seller/homepage">Furniture Shop</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="/seller/homepage">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/seller/add-product">Add Product</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/seller/manage-products">Manage Products</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/seller/orders">Orders</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/seller/profile">Profile</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/seller/notifications">Notification</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/seller/chat">Chat</a>
+        </li>
+      </ul>
+      <form class="d-flex ms-auto" method="GET" action="/seller/search">
+        <input class="form-control me-2" type="search" name="query" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </form>
+    </div>
   </div>
 </nav>
