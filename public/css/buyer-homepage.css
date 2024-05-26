@@ -125,4 +125,7 @@ body {
     object-fit: cover;
   }
   
-  
+  .dropdown-menu {
+    max-height: 400px;
+    overflow-y: auto;
+  }
