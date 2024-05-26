@@ -13,8 +13,7 @@ app.use(bodyParser.json());
 app.use(session({
   secret: 'h5dT9z3L4mA1eN6bX7qP8sR2jG3kI9vW0oU7vZ3rQ5tY1pB6nV',
   resave: false,
-  saveUninitialized: true,
-  cookie: { maxAge: 60000 }
+  saveUninitialized: true
 }));
 app.use(express.static(path.join(__dirname, 'public')));
 

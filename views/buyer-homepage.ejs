@@ -4,9 +4,42 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Buyer Homepage</title>
+  <!-- Bootstrap CSS -->
+  <link href="/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome CSS từ CDN -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+  <link href="/css/buyer-homepage.css" rel="stylesheet">
 </head>
 <body>
-  <h1>Welcome to Buyer Homepage</h1>
-  <!-- Nội dung trang chủ của buyer -->
+  <%- include('partials/buyer/header.ejs') %>
+
+  <div class="container mt-4">
+    <h1>Furniture Shop</h1>
+    <div class="row">
+      <% products.forEach(function(product) { %>
+        <div class="col-md-3">
+          <div class="card mb-4 shadow-sm">
+            <div class="card-body position-relative">
+              <a href="/buyer/product/<%= product.id %>">
+                <img src="<%= product.productImage %>" class="card-img-top" alt="Product Image">
+              </a>
+              <div class="overlay">
+                <button class="btn btn-primary btn-add-to-cart">Add to Cart</button>
+              </div>
+              <h5 class="card-title mt-2"><%= product.productName %></h5>
+              <p class="card-text"><strong>Price: </strong>$<%= product.price %></p>
+              <p class="card-text"><strong>Category: </strong><%= product.category %></p>
+              <p class="card-text"><strong>Interior style: </strong><%= product.interiorStyle %></p>
+            </div>
+          </div>
+        </div>
+      <% }); %>
+    </div>
+  </div>
+
+  <%- include('partials/buyer/footer.ejs') %>
+
+  <!-- Bootstrap JS and dependencies -->
+  <script src="/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

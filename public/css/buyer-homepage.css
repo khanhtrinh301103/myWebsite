@@ -1,0 +1,121 @@
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+  }
+  
+  .flex-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  
+  .container-fluid {
+    flex-grow: 1;
+  }
+  
+  header, footer {
+    flex-shrink: 0;
+  }
+  
+  main {
+    flex: 1;
+  }
+
+  h1{
+    text-align: center;
+    padding-bottom: 50px;
+  }
+  
+  h5{
+    font-size: 20px;
+    font-weight: bold;
+    color: #62a6ff;
+    text-transform: capitalize;
+  }
+  
+  strong{
+    color: #6cb3ee;
+  }
+  
+  .navbar-brand {
+    font-size: 1.5rem;
+    padding-left: 10px;
+    text-transform: capitalize;
+  }
+  
+  .navbar-collapse {
+    position: absolute;
+    right: 0;
+  }
+  
+  .navbar-nav .nav-item {
+    margin-left: 15px; /* Khoảng cách giữa các mục */
+  }
+  
+  .form-inline {
+    display: flex;
+  }
+  
+  .form-inline input {
+    width: 350px; /* Đặt chiều rộng của thanh tìm kiếm */
+    margin-right: 10px;
+  }
+  
+  footer {
+    background-color: #343a40;
+    color: white;
+    text-align: center;
+    padding: 1rem 0;
+  }
+  
+  /* width */
+  ::-webkit-scrollbar {
+    width: 10px;
+    border-radius:  20%;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #70ff94;
+    border-radius:  20%;  
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #9fffb7;
+  }
+
+  .card-body {
+    position: relative;
+  }
+  
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    opacity: 0;
+    transition: opacity 0.3s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .card-body:hover .overlay {
+    opacity: 1;
+  }
+  
+  .btn-add-to-cart {
+    display: block;
+  }
+  
