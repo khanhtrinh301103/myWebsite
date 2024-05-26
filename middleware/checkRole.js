@@ -3,7 +3,7 @@ const { getDoc, doc } = require('firebase/firestore');
 
 const checkRole = (role) => {
   return async (req, res, next) => {
-    const user = req.user;
+    const user = req.session.user;
 
     if (!user) {
       return res.redirect('/auth/login');

@@ -13,7 +13,8 @@ app.use(bodyParser.json());
 app.use(session({
   secret: 'h5dT9z3L4mA1eN6bX7qP8sR2jG3kI9vW0oU7vZ3rQ5tY1pB6nV',
   resave: false,
-  saveUninitialized: true
+  saveUninitialized: true,
+  cookie: { maxAge: 60000 }
 }));
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -36,3 +37,5 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+
+module.exports = app;

@@ -15,7 +15,7 @@
 
     <div class="container mt-4 flex-grow-1">
       <h1>Profile</h1>
-      <div class="card">
+      <div class="card mb-4">
         <div class="card-body">
           <h5 class="card-title">Profile Information</h5>
           <p class="card-text"><strong>Email:</strong> <%= user.email %></p>
@@ -25,6 +25,7 @@
           <p class="card-text"><strong>Role:</strong> <%= user.role %></p>
         </div>
       </div>
+      <a href="/auth/logout" class="btn btn-danger">Logout</a>
     </div>
 
     <%- include('../partials/seller/footer.ejs') %>

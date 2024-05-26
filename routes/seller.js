@@ -8,27 +8,28 @@ const { renderManageProductsPage } = require('../controllers/manageProducts');
 const { renderProductDetailPage } = require('../controllers/productDetail');
 const { renderSellerHomepage } = require('../controllers/sellerHomepage');
 const { renderProfilePage } = require('../controllers/profile');
+const checkRole = require('../middleware/checkRole');
 
-router.get('/add-product', renderAddProductPage);
-router.post('/add-product', upload.fields([
+router.get('/add-product', checkRole('seller'), renderAddProductPage);
+router.post('/add-product', checkRole('seller'), upload.fields([
   { name: 'productImage', maxCount: 1 },
   { name: 'additionalImages', maxCount: 3 }
 ]), handleAddProduct);
 
-router.get('/edit-product/:id', renderEditProductPage);
-router.post('/edit-product/:id', upload.fields([
+router.get('/edit-product/:id', checkRole('seller'), renderEditProductPage);
+router.post('/edit-product/:id', checkRole('seller'), upload.fields([
   { name: 'productImage', maxCount: 1 },
   { name: 'additionalImages', maxCount: 3 }
 ]), handleEditProduct);
 
-router.post('/delete-product/:id', handleDeleteProduct);
+router.post('/delete-product/:id', checkRole('seller'), handleDeleteProduct);
 
-router.get('/manage-products', renderManageProductsPage);
+router.get('/manage-products', checkRole('seller'), renderManageProductsPage);
 
-router.get('/product/:id', renderProductDetailPage);
+router.get('/product/:id', checkRole('seller'), renderProductDetailPage);
 
-router.get('/homepage', renderSellerHomepage);
+router.get('/homepage', checkRole('seller'), renderSellerHomepage);
 
-router.get('/profile', renderProfilePage);
+router.get('/profile', checkRole('seller'), renderProfilePage);
 
 module.exports = router;

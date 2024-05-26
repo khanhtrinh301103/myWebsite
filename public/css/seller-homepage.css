@@ -87,3 +87,29 @@ footer p {
   flex: 1 0 18%; /* Adjust the flex basis to get 5 cards per row */
 }
 
+.carousel-item img {
+  height: 550px;
+  object-fit: cover;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+  border-radius:  20%;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #70ff94;
+  border-radius:  20%;  
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #9fffb7;
+}
