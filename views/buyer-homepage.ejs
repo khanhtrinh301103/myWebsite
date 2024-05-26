@@ -13,27 +13,37 @@
 <body>
   <%- include('partials/buyer/header.ejs') %>
 
+  <!-- Banner Slider -->
+  <%- include('partials/buyer/banner.ejs') %>
+
   <div class="container mt-4">
     <h1>Furniture Shop</h1>
     <div class="row">
-      <% products.forEach(function(product) { %>
-        <div class="col-md-3">
-          <div class="card mb-4 shadow-sm">
-            <div class="card-body position-relative">
-              <a href="/buyer/product/<%= product.id %>">
-                <img src="<%= product.productImage %>" class="card-img-top" alt="Product Image">
-              </a>
-              <div class="overlay">
-                <button class="btn btn-primary btn-add-to-cart">Add to Cart</button>
+      <div class="col-md-3">
+        <%- include('partials/buyer/filter.ejs') %>
+      </div>
+      <div class="col-md-9">
+        <div class="row">
+          <% products.forEach(function(product) { %>
+            <div class="col-md-4">
+              <div class="card mb-4 shadow-sm">
+                <div class="card-body position-relative">
+                  <a href="/buyer/product/<%= product.id %>">
+                    <img src="<%= product.productImage %>" class="card-img-top" alt="Product Image">
+                  </a>
+                  <div class="overlay">
+                    <button class="btn btn-primary btn-add-to-cart">Add to Cart</button>
+                  </div>
+                  <h5 class="card-title mt-2"><%= product.productName %></h5>
+                  <p class="card-text"><strong>Price: </strong>$<%= product.price %></p>
+                  <p class="card-text"><strong>Category: </strong><%= product.category %></p>
+                  <p class="card-text"><strong>Interior style: </strong><%= product.interiorStyle %></p>
+                </div>
               </div>
-              <h5 class="card-title mt-2"><%= product.productName %></h5>
-              <p class="card-text"><strong>Price: </strong>$<%= product.price %></p>
-              <p class="card-text"><strong>Category: </strong><%= product.category %></p>
-              <p class="card-text"><strong>Interior style: </strong><%= product.interiorStyle %></p>
             </div>
-          </div>
+          <% }); %>
         </div>
-      <% }); %>
+      </div>
     </div>
   </div>
 

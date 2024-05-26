@@ -119,3 +119,10 @@ body {
     display: block;
   }
   
+  /* Custom styles for banner */
+  .carousel-inner img {
+    height: 550px;
+    object-fit: cover;
+  }
+  
+  
