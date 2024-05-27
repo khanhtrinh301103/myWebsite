@@ -11,7 +11,7 @@
   <link href="/css/buyer-homepage.css" rel="stylesheet">
 </head>
 <body>
-  <%- include('partials/buyer/header.ejs') %>
+  <%- include('partials/buyer/header.ejs', { user: user, currentPath: currentPath }) %>
 
   <!-- Banner Slider -->
   <%- include('partials/buyer/banner.ejs') %>
@@ -27,7 +27,11 @@
           <% products.forEach(function(product) { %>
             <div class="col-md-4">
               <div class="card mb-4 shadow-sm">
-                <div class="card-body position-relative">
+                <div class="card-body position-relative" 
+                     data-product-id="<%= product.id %>" 
+                     data-category="<%= product.category %>" 
+                     data-interior-style="<%= product.interiorStyle %>" 
+                     data-seller-id="<%= product.sellerId %>">
                   <a href="/buyer/product/<%= product.id %>">
                     <img src="<%= product.productImage %>" class="card-img-top" alt="Product Image">
                   </a>

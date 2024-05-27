@@ -17,6 +17,12 @@ app.use(session({
 }));
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Middleware to set currentPath
+app.use((req, res, next) => {
+  res.locals.currentPath = req.path;
+  next();
+});
+
 // Set view engine
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
