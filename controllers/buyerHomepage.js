@@ -1,7 +1,8 @@
 const { getAuth } = require('firebase/auth');
 const { db } = require('../config/firebaseConfig');
-const { getDocs, collection, getDoc, doc } = require('firebase/firestore');
+const { getDocs, collection, getDoc, doc, setDoc } = require('firebase/firestore');
 
+// Render buyer homepage
 const renderBuyerHomepage = async (req, res) => {
   const user = req.session.user;
 
@@ -31,4 +32,41 @@ const renderBuyerHomepage = async (req, res) => {
   }
 };
 
-module.exports = { renderBuyerHomepage };
+// Add to cart function
+const addToCart = async (req, res) => {
+  const user = req.session.user;
+  const { productId } = req.body;
+
+  if (!user) {
+    return res.status(401).send('Unauthorized');
+  }
+
+  try {
+    const productDoc = await getDoc(doc(db, 'products', productId));
+    if (productDoc.exists()) {
+      const productData = productDoc.data();
+      const cartItem = {
+        productImage: productData.productImage,
+        productName: productData.productName,
+        category: productData.category,
+        interiorStyle: productData.interiorStyle,
+        quantity: 1, // Default quantity
+        price: productData.price,
+        sellerId: productData.sellerId,
+        buyerId: user.uid
+      };
+
+      // Lưu thông tin sản phẩm vào collection 'cart'
+      await setDoc(doc(db, 'cart', `${user.uid}_${productId}`), cartItem);
+
+      res.status(200).send('Product added to cart');
+    } else {
+      res.status(404).send('Product not found');
+    }
+  } catch (error) {
+    console.error('Error adding product to cart:', error);
+    res.status(500).send('Internal Server Error');
+  }
+};
+
+module.exports = { renderBuyerHomepage, addToCart };

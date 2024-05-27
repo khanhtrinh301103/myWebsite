@@ -9,6 +9,13 @@
   <!-- Font Awesome CSS từ CDN -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
   <link href="/css/buyer-homepage.css" rel="stylesheet">
+  <style>
+    .flying-to-cart {
+      position: absolute;
+      z-index: 1000;
+      transition: transform 1s ease, opacity 1s ease;
+    }
+  </style>
 </head>
 <body>
   <%- include('partials/buyer/header.ejs', { user: user, currentPath: currentPath }) %>
@@ -36,7 +43,7 @@
                     <img src="<%= product.productImage %>" class="card-img-top" alt="Product Image">
                   </a>
                   <div class="overlay">
-                    <button class="btn btn-primary btn-add-to-cart">Add to Cart</button>
+                    <button class="btn btn-primary btn-add-to-cart" onclick="addToCart('<%= product.id %>')">Add to Cart</button>
                   </div>
                   <h5 class="card-title mt-2"><%= product.productName %></h5>
                   <p class="card-text"><strong>Price: </strong>$<%= product.price %></p>
@@ -55,6 +62,47 @@
 
   <!-- Bootstrap JS and dependencies -->
   <script src="/js/bootstrap.bundle.min.js"></script>
-  <script src="/js/addToCart.js"></script>
+  <script>
+    async function addToCart(productId) {
+      try {
+        const response = await fetch('/buyer/add-to-cart', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ productId })
+        });
+        if (response.ok) {
+          const productElement = document.querySelector(`[data-product-id="${productId}"]`);
+          flyToCart(productElement);
+        }
+      } catch (error) {
+        console.error('Error adding product to cart:', error);
+      }
+    }
+
+    function flyToCart(productElement) {
+      const productImage = productElement.querySelector('img').cloneNode(true);
+      const productRect = productElement.getBoundingClientRect();
+
+      productImage.style.position = 'absolute';
+      productImage.style.top = `${productRect.top}px`;
+      productImage.style.left = `${productRect.left}px`;
+      productImage.style.width = `${productRect.width}px`;
+      productImage.style.height = `${productRect.height}px`;
+      productImage.classList.add('flying-to-cart');
+
+      document.body.appendChild(productImage);
+
+      setTimeout(() => {
+        productImage.style.transform = `translate(${window.innerWidth - productRect.right - 20}px, ${-productRect.top}px) scale(0.5)`;
+        productImage.style.opacity = '0';
+      }, 100);
+
+      setTimeout(() => {
+        productImage.remove();
+      }, 1100);
+    }
+  </script>
 </body>
 </html>
