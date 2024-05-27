@@ -27,7 +27,6 @@ router.post('/cart/update/:id', updateCartQuantity);
 // Route để xóa sản phẩm khỏi giỏ hàng
 router.post('/cart/delete/:id', deleteCartItem);
 
-// Route để lấy tất cả các mục trong giỏ hàng (sử dụng cho popsup)
 router.get('/cart/items', async (req, res) => {
     const user = getAuth().currentUser;
 
