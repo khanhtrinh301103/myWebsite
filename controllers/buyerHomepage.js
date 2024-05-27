@@ -4,6 +4,7 @@ const { getDocs, collection, getDoc, doc } = require('firebase/firestore');
 
 const renderBuyerHomepage = async (req, res) => {
   const user = req.session.user;
+  const currentPath = req.currentPath;
 
   if (!user) {
     return res.redirect('/auth/login');
@@ -21,7 +22,7 @@ const renderBuyerHomepage = async (req, res) => {
         products.push({ ...doc.data(), id: doc.id });
       });
 
-      res.render('buyer-homepage', { user: userData, products });
+      res.render('buyer-homepage', { user: userData, products, currentPath });
     } else {
       res.redirect('/auth/login');
     }

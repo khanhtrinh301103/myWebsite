@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shopping Cart</title>
+  <!-- Bootstrap CSS -->
+  <link href="/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+  <%- include('../partials/buyer/header.ejs', { user: user, currentPath: currentPath }) %>
+
+  <div class="container mt-4">
+    <h1>Shopping Cart</h1>
+    <div class="row">
+      <div class="col">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>Product Image</th>
+              <th>Product Name</th>
+              <th>Category</th>
+              <th>Interior Style</th>
+              <th>Seller</th>
+              <th>Quantity</th>
+              <th>Price</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% cartItems.forEach(function(item) { %>
+              <tr>
+                <td><img src="<%= item.productImage %>" class="img-thumbnail" style="width: 100px; height: 100px;"></td>
+                <td><%= item.productName %></td>
+                <td><%= item.category %></td>
+                <td><%= item.interiorStyle %></td>
+                <td><%= item.sellerName %></td>
+                <td>
+                  <form action="/buyer/cart/update-quantity/<%= item.id %>" method="POST" class="form-inline">
+                    <button type="submit" class="btn btn-secondary btn-sm" name="quantity" value="<%= item.quantity - 1 %>" <%= item.quantity <= 1 ? 'disabled' : '' %>>-</button>
+                    <span class="mx-2"><%= item.quantity %></span>
+                    <button type="submit" class="btn btn-secondary btn-sm" name="quantity" value="<%= item.quantity + 1 %>">+</button>
+                  </form>
+                </td>
+                <td>$<%= item.price %></td>
+                <td>
+                  <form action="/buyer/cart/delete/<%= item.id %>" method="POST">
+                    <button type="submit" class="btn btn-danger btn-sm">&times;</button>
+                  </form>
+                </td>
+              </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <%- include('../partials/buyer/footer.ejs') %>
+
+  <!-- Bootstrap JS and dependencies -->
+  <script src="/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
