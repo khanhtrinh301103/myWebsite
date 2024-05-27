@@ -1,6 +1,6 @@
 const { getAuth } = require('firebase/auth');
 const { db } = require('../config/firebaseConfig');
-const { getDocs, collection, getDoc, doc, setDoc } = require('firebase/firestore');
+const { getDocs, collection, getDoc, doc, setDoc, updateDoc } = require('firebase/firestore');
 
 // Render buyer homepage
 const renderBuyerHomepage = async (req, res) => {
@@ -42,10 +42,25 @@ const addToCart = async (req, res) => {
   }
 
   try {
-    const productDoc = await getDoc(doc(db, 'products', productId));
-    if (productDoc.exists()) {
-      const productData = productDoc.data();
+    const productDocRef = doc(db, 'products', productId);
+    const productDoc = await getDoc(productDocRef);
+
+    if (!productDoc.exists()) {
+      throw new Error('Product not found');
+    }
+
+    const productData = productDoc.data();
+    const cartDocRef = doc(db, 'cart', `${user.uid}_${productId}`);
+    const cartDoc = await getDoc(cartDocRef);
+
+    if (cartDoc.exists()) {
+      // Nếu sản phẩm đã có trong giỏ hàng, tăng số lượng lên 1
+      const newQuantity = cartDoc.data().quantity + 1;
+      await updateDoc(cartDocRef, { quantity: newQuantity });
+    } else {
+      // Nếu sản phẩm chưa có trong giỏ hàng, thêm sản phẩm mới với số lượng 1
       const cartItem = {
+        productId: productId,
         productImage: productData.productImage,
         productName: productData.productName,
         category: productData.category,
@@ -56,13 +71,10 @@ const addToCart = async (req, res) => {
         buyerId: user.uid
       };
 
-      // Lưu thông tin sản phẩm vào collection 'cart'
-      await setDoc(doc(db, 'cart', `${user.uid}_${productId}`), cartItem);
-
-      res.status(200).send('Product added to cart');
-    } else {
-      res.status(404).send('Product not found');
+      await setDoc(cartDocRef, cartItem);
     }
+
+    res.status(200).send('Product added to cart');
   } catch (error) {
     console.error('Error adding product to cart:', error);
     res.status(500).send('Internal Server Error');
