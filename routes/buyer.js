@@ -18,6 +18,9 @@ router.get('/cart', (req, res, next) => {
   renderBuyerCart(req, res, next);
 });
 
+// Route để lấy các sản phẩm trong giỏ hàng
+router.get('/cart/items', getCartItems);
+
 // Route để thêm sản phẩm vào giỏ hàng
 router.post('/cart/add', addToCart);
 

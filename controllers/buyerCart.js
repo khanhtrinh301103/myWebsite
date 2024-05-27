@@ -92,4 +92,26 @@ const deleteCartItem = async (req, res) => {
   }
 };
 
-module.exports = { renderBuyerCart, addToCart, updateCartQuantity, deleteCartItem };
+const getCartItems = async (req, res) => {
+  const user = getAuth().currentUser;
+
+  if (!user) {
+      return res.redirect('/auth/login');
+  }
+
+  const cartItems = [];
+  try {
+      const q = query(collection(db, 'cart'), where('buyerId', '==', user.uid));
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach((doc) => {
+          cartItems.push({ ...doc.data(), id: doc.id });
+      });
+      res.status(200).json({ cartItems });
+  } catch (error) {
+      console.error('Error getting cart items: ', error);
+      res.status(500).json({ message: 'Error getting cart items' });
+  }
+};
+
+module.exports = { renderBuyerCart, addToCart, updateCartQuantity, deleteCartItem, getCartItems };
+
