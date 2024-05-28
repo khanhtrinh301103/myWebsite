@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { renderBuyerHomepage, addToCart } = require('../controllers/buyerHomepage');
-const { renderBuyerCart, updateCartQuantity, deleteCartItem } = require('../controllers/buyerCart');
+const { renderBuyerCart, updateCartQuantity, deleteCartItem, clearCart } = require('../controllers/buyerCart');
 const { getAuth } = require('firebase/auth');
 const { collection, query, where, getDocs } = require('firebase/firestore');
 const { db } = require('../config/firebaseConfig');
@@ -31,6 +31,11 @@ router.post('/cart/update/:id', (req, res, next) => {
 // Route để xóa sản phẩm khỏi giỏ hàng
 router.post('/cart/delete/:id', (req, res, next) => {
   deleteCartItem(req, res, next);
+});
+
+// Route để xóa toàn bộ giỏ hàng
+router.post('/cart/clear', (req, res, next) => {
+  clearCart(req, res, next);
 });
 
 module.exports = router;

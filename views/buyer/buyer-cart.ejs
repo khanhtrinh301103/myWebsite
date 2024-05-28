@@ -7,39 +7,81 @@
   <!-- Bootstrap CSS -->
   <link href="/css/bootstrap.min.css" rel="stylesheet">
   <link href="/css/buyer-cart.css" rel="stylesheet">
+  <style>
+    .cart-table th, .cart-table td {
+      vertical-align: middle;
+      text-align: center;
+    }
+    .cart-table img {
+      max-width: 100px;
+    }
+    .cart-buttons {
+      display: flex;
+      justify-content: space-between;
+    }
+    .product-info {
+      text-align: left;
+      margin-left: 10px;
+    }
+    .product-image {
+      border-right: 1px solid #dee2e6; /* Đường line ngăn cách */
+      padding-right: 10px; /* Khoảng cách giữa đường line và ảnh */
+    }
+  </style>
 </head>
 <body>
   <%- include('../partials/buyer/header.ejs', { user: user, currentPath }) %>
 
   <div class="container mt-4">
     <h1>Shopping Cart</h1>
-    <div class="row">
-      <% cartItems.forEach(function(item) { %>
-        <div class="col-md-12 mb-4">
-          <div class="card">
-            <div class="row no-gutters">
-              <div class="col-md-4">
-                <img src="<%= item.productImage %>" class="card-img" alt="<%= item.productName %>">
-              </div>
-              <div class="col-md-8">
-                <div class="card-body">
-                  <h5 class="card-title"><%= item.productName %></h5>
-                  <p class="card-text">Price: $<%= item.price %></p>
-                  <p class="card-text">Category: <%= item.category %></p>
-                  <p class="card-text">Interior Style: <%= item.interiorStyle %></p>
-                  <p class="card-text">Seller: <%= item.fullName %></p>
-                  <div class="d-flex align-items-center">
-                    <button class="btn btn-secondary btn-sm btn-decrease" data-id="<%= item.productId %>">-</button>
-                    <span class="mx-2"><%= item.quantity %></span>
-                    <button class="btn btn-secondary btn-sm btn-increase" data-id="<%= item.productId %>">+</button>
-                  </div>
-                  <button class="btn btn-danger btn-sm btn-delete" data-id="<%= item.productId %>">Delete</button>
+    <table class="table table-bordered cart-table">
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Price</th>
+          <th>Quantity</th>
+          <th>Total</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% cartItems.forEach(function(item) { %>
+          <tr>
+            <td>
+              <div class="d-flex align-items-center">
+                <div class="product-image">
+                  <img src="<%= item.productImage %>" alt="<%= item.productName %>">
+                </div>
+                <div class="product-info">
+                  <h5><%= item.productName %></h5>
+                  <p>Category: <%= item.category %></p>
+                  <p>Interior Style: <%= item.interiorStyle %></p>
+                  <p>Seller: <%= item.fullName %></p>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-      <% }); %>
+            </td>
+            <td>$<%= item.price %></td>
+            <td>
+              <div class="d-flex justify-content-center align-items-center">
+                <button class="btn btn-secondary btn-sm btn-decrease" data-id="<%= item.id %>">-</button>
+                <input type="number" class="form-control text-center mx-2 quantity-input" data-id="<%= item.id %>" value="<%= item.quantity %>" min="1" style="width: 60px;">
+                <button class="btn btn-secondary btn-sm btn-increase" data-id="<%= item.id %>">+</button>
+              </div>
+            </td>
+            <td>$<%= (item.price * item.quantity).toFixed(2) %></td>
+            <td>
+              <button class="btn btn-danger btn-sm btn-delete" data-id="<%= item.id %>">&times;</button>
+            </td>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+    <div class="cart-buttons mt-4">
+      <a href="/buyer/homepage" class="btn btn-secondary">Continue Shopping</a>
+      <div>
+        <button class="btn btn-danger" id="clear-cart">Clear Cart</button>
+        <button class="btn btn-primary" id="update-cart">Update Cart</button>
+      </div>
     </div>
   </div>
 
@@ -47,58 +89,41 @@
   <script src="/js/bootstrap.bundle.min.js"></script>
   <script>
     document.querySelectorAll('.btn-decrease').forEach(button => {
-      button.addEventListener('click', async function (e) {
+      button.addEventListener('click', function (e) {
         const id = e.target.dataset.id;
-        const quantityElement = e.target.nextElementSibling;
-        let quantity = parseInt(quantityElement.textContent);
+        const quantityInput = document.querySelector(`.quantity-input[data-id="${id}"]`);
+        let quantity = parseInt(quantityInput.value);
 
         if (quantity > 1) {
           quantity--;
-          try {
-            const response = await fetch(`/buyer/cart/update/${id}`, {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify({ quantity })
-            });
-
-            if (response.ok) {
-              quantityElement.textContent = quantity;
-            } else {
-              alert('Error updating quantity');
-            }
-          } catch (error) {
-            console.error('Error updating quantity: ', error);
-          }
+          quantityInput.value = quantity;
+          updateQuantity(id, quantity);
         }
       });
     });
 
     document.querySelectorAll('.btn-increase').forEach(button => {
-      button.addEventListener('click', async function (e) {
+      button.addEventListener('click', function (e) {
         const id = e.target.dataset.id;
-        const quantityElement = e.target.previousElementSibling;
-        let quantity = parseInt(quantityElement.textContent);
+        const quantityInput = document.querySelector(`.quantity-input[data-id="${id}"]`);
+        let quantity = parseInt(quantityInput.value);
 
         quantity++;
-        try {
-          const response = await fetch(`/buyer/cart/update/${id}`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ quantity })
-          });
+        quantityInput.value = quantity;
+        updateQuantity(id, quantity);
+      });
+    });
 
-          if (response.ok) {
-            quantityElement.textContent = quantity;
-          } else {
-            alert('Error updating quantity');
-          }
-        } catch (error) {
-          console.error('Error updating quantity: ', error);
+    document.querySelectorAll('.quantity-input').forEach(input => {
+      input.addEventListener('change', function (e) {
+        const id = e.target.dataset.id;
+        let quantity = parseInt(e.target.value);
+
+        if (quantity < 1) {
+          quantity = 1;
+          e.target.value = quantity;
         }
+        updateQuantity(id, quantity);
       });
     });
 
@@ -112,15 +137,53 @@
           });
 
           if (response.ok) {
-            e.target.closest('.col-md-12').remove();
+            e.target.closest('tr').remove();
           } else {
             alert('Error deleting item');
           }
         } catch (error) {
-          console.error('Error deleting item: ', error);
+          console.error('Error deleting item:', error);
         }
       });
     });
+
+    document.getElementById('clear-cart').addEventListener('click', async function () {
+      try {
+        const response = await fetch('/buyer/cart/clear', {
+          method: 'POST'
+        });
+
+        if (response.ok) {
+          document.querySelectorAll('.cart-table tbody tr').forEach(row => row.remove());
+        } else {
+          alert('Error clearing cart');
+        }
+      } catch (error) {
+        console.error('Error clearing cart: ', error);
+      }
+    });
+
+    async function updateQuantity(id, quantity) {
+      try {
+        const response = await fetch(`/buyer/cart/update/${id}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ quantity: parseInt(quantity) })
+        });
+
+        if (response.ok) {
+          const totalElement = document.querySelector(`.btn-decrease[data-id="${id}"]`).closest('tr').querySelector('td:nth-child(4)');
+          const price = parseFloat(totalElement.closest('tr').querySelector('td:nth-child(2)').textContent.replace('$', ''));
+          totalElement.textContent = `$${(price * quantity).toFixed(2)}`;
+        } else {
+          alert('Error updating quantity');
+        }
+      } catch (error) {
+        console.error('Error updating quantity: ', error);
+      }
+    }
   </script>
 </body>
 </html>

@@ -1,5 +1,5 @@
 const { db } = require('../config/firebaseConfig');
-const { doc, getDoc, collection, getDocs, updateDoc, deleteDoc } = require('firebase/firestore');
+const { doc, getDoc, updateDoc, deleteDoc, collection, getDocs, query, where, writeBatch } = require('firebase/firestore');
 const { getAuth } = require('firebase/auth');
 
 // Render buyer cart page
@@ -11,7 +11,8 @@ const renderBuyerCart = async (req, res) => {
   }
 
   try {
-    const cartSnapshot = await getDocs(collection(db, 'cart'));
+    const cartCollectionRef = collection(db, 'cart');
+    const cartSnapshot = await getDocs(cartCollectionRef);
     const cartItems = [];
 
     for (const cartDoc of cartSnapshot.docs) {
@@ -24,7 +25,7 @@ const renderBuyerCart = async (req, res) => {
         } else {
           cartData.fullName = 'Unknown Seller';
         }
-        cartItems.push(cartData);
+        cartItems.push({ id: cartDoc.id, ...cartData });
       }
     }
 
@@ -42,11 +43,16 @@ const updateCartQuantity = async (req, res) => {
 
   try {
     const cartDocRef = doc(db, 'cart', id);
-    await updateDoc(cartDocRef, { quantity });
+    const cartDoc = await getDoc(cartDocRef);
 
+    if (!cartDoc.exists()) {
+      return res.status(404).send('Cart item not found');
+    }
+
+    await updateDoc(cartDocRef, { quantity });
     res.status(200).send('Quantity updated');
   } catch (error) {
-    console.error('Error updating quantity:', error);
+    console.error('Error updating quantity:', error.message, error.stack);
     res.status(500).send('Internal Server Error');
   }
 };
@@ -66,4 +72,36 @@ const deleteCartItem = async (req, res) => {
   }
 };
 
-module.exports = { renderBuyerCart, updateCartQuantity, deleteCartItem };
+// Clear cart
+const clearCart = async (req, res) => {
+  const user = req.session.user;
+
+  if (!user) {
+    return res.redirect('/auth/login');
+  }
+
+  try {
+    const cartCollectionRef = collection(db, 'cart');
+    const q = query(cartCollectionRef, where('buyerId', '==', user.uid));
+    const cartSnapshot = await getDocs(q);
+
+    if (cartSnapshot.empty) {
+      return res.status(404).send('No cart items found for this user');
+    }
+
+    const batch = writeBatch(db);
+
+    cartSnapshot.forEach(cartDoc => {
+      batch.delete(cartDoc.ref);
+    });
+
+    await batch.commit();
+
+    res.status(200).send('Cart cleared');
+  } catch (error) {
+    console.error('Error clearing cart:', error.message, error.stack);
+    res.status(500).send('Internal Server Error');
+  }
+};
+
+module.exports = { renderBuyerCart, updateCartQuantity, deleteCartItem, clearCart };
