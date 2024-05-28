@@ -1,117 +1,69 @@
 const { db } = require('../config/firebaseConfig');
-const { collection, addDoc, getDocs, query, where, updateDoc, doc, deleteDoc, getDoc } = require('firebase/firestore');
+const { doc, getDoc, collection, getDocs, updateDoc, deleteDoc } = require('firebase/firestore');
 const { getAuth } = require('firebase/auth');
 
+// Render buyer cart page
 const renderBuyerCart = async (req, res) => {
-  const user = getAuth().currentUser;
+  const user = req.session.user;
 
   if (!user) {
     return res.redirect('/auth/login');
   }
 
-  const cartItems = [];
   try {
-    const q = query(collection(db, 'cart'), where('buyerId', '==', user.uid));
-    const querySnapshot = await getDocs(q);
-    for (const doc of querySnapshot.docs) {
-      const data = doc.data();
-      const sellerDoc = await getDoc(doc(db, 'users', data.sellerId));
-      const seller = sellerDoc.data();
-      cartItems.push({ ...data, id: doc.id, sellerName: seller.fullName });
+    const cartSnapshot = await getDocs(collection(db, 'cart'));
+    const cartItems = [];
+
+    for (const cartDoc of cartSnapshot.docs) {
+      const cartData = cartDoc.data();
+      if (cartData.buyerId === user.uid) {
+        const sellerDoc = await getDoc(doc(db, 'users', cartData.sellerId));
+        if (sellerDoc.exists()) {
+          const sellerData = sellerDoc.data();
+          cartData.fullName = sellerData.fullName;
+        } else {
+          cartData.fullName = 'Unknown Seller';
+        }
+        cartItems.push(cartData);
+      }
     }
-    res.render('buyer/buyer-cart', { cartItems, currentPath: '/buyer/cart', user });
+
+    res.render('buyer/buyer-cart', { user, cartItems, currentPath: '/buyer/cart' });
   } catch (error) {
-    console.error('Error getting documents: ', error);
-    res.render('buyer/buyer-cart', { cartItems: [], currentPath: '/buyer/cart', user });
+    console.error('Error fetching cart items:', error);
+    res.redirect('/buyer/homepage');
   }
 };
 
-const addToCart = async (req, res) => {
-  const { productId, productName, price, category, interiorStyle, productImage, sellerId } = req.body;
-  const user = getAuth().currentUser;
-
-  if (!user) {
-    return res.redirect('/auth/login');
-  }
-
-  try {
-    const cartItem = {
-      productId,
-      productName,
-      price,
-      category,
-      interiorStyle,
-      productImage,
-      sellerId,
-      buyerId: user.uid,
-      quantity: 1
-    };
-
-    await addDoc(collection(db, 'cart'), cartItem);
-    res.status(200).json({ message: 'Added to cart successfully' });
-  } catch (error) {
-    console.error('Error adding to cart: ', error);
-    res.status(500).json({ message: 'Error adding to cart' });
-  }
-};
-
+// Update cart quantity
 const updateCartQuantity = async (req, res) => {
   const { id } = req.params;
   const { quantity } = req.body;
-  const user = getAuth().currentUser;
-
-  if (!user) {
-    return res.redirect('/auth/login');
-  }
 
   try {
-    const cartItemDoc = doc(db, 'cart', id);
-    await updateDoc(cartItemDoc, { quantity });
-    res.status(200).json({ message: 'Cart item quantity updated successfully' });
+    const cartDocRef = doc(db, 'cart', id);
+    await updateDoc(cartDocRef, { quantity });
+
+    res.status(200).send('Quantity updated');
   } catch (error) {
-    console.error('Error updating cart item quantity: ', error);
-    res.status(500).json({ message: 'Error updating cart item quantity' });
+    console.error('Error updating quantity:', error);
+    res.status(500).send('Internal Server Error');
   }
 };
 
+// Delete cart item
 const deleteCartItem = async (req, res) => {
   const { id } = req.params;
-  const user = getAuth().currentUser;
-
-  if (!user) {
-    return res.redirect('/auth/login');
-  }
 
   try {
-    const cartItemDoc = doc(db, 'cart', id);
-    await deleteDoc(cartItemDoc);
-    res.status(200).json({ message: 'Cart item deleted successfully' });
+    const cartDocRef = doc(db, 'cart', id);
+    await deleteDoc(cartDocRef);
+
+    res.status(200).send('Item deleted');
   } catch (error) {
-    console.error('Error deleting cart item: ', error);
-    res.status(500).json({ message: 'Error deleting cart item' });
+    console.error('Error deleting item:', error);
+    res.status(500).send('Internal Server Error');
   }
 };
 
-const getCartItems = async (req, res) => {
-  const user = getAuth().currentUser;
-
-  if (!user) {
-      return res.redirect('/auth/login');
-  }
-
-  const cartItems = [];
-  try {
-      const q = query(collection(db, 'cart'), where('buyerId', '==', user.uid));
-      const querySnapshot = await getDocs(q);
-      querySnapshot.forEach((doc) => {
-          cartItems.push({ ...doc.data(), id: doc.id });
-      });
-      res.status(200).json({ cartItems });
-  } catch (error) {
-      console.error('Error getting cart items: ', error);
-      res.status(500).json({ message: 'Error getting cart items' });
-  }
-};
-
-module.exports = { renderBuyerCart, addToCart, updateCartQuantity, deleteCartItem, getCartItems };
-
+module.exports = { renderBuyerCart, updateCartQuantity, deleteCartItem };

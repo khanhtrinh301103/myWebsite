@@ -27,13 +27,13 @@
                   <p class="card-text">Price: $<%= item.price %></p>
                   <p class="card-text">Category: <%= item.category %></p>
                   <p class="card-text">Interior Style: <%= item.interiorStyle %></p>
-                  <p class="card-text">Seller: <%= item.sellerId %></p>
+                  <p class="card-text">Seller: <%= item.fullName %></p>
                   <div class="d-flex align-items-center">
-                    <button class="btn btn-secondary btn-sm btn-decrease" data-id="<%= item.id %>">-</button>
+                    <button class="btn btn-secondary btn-sm btn-decrease" data-id="<%= item.productId %>">-</button>
                     <span class="mx-2"><%= item.quantity %></span>
-                    <button class="btn btn-secondary btn-sm btn-increase" data-id="<%= item.id %>">+</button>
+                    <button class="btn btn-secondary btn-sm btn-increase" data-id="<%= item.productId %>">+</button>
                   </div>
-                  <button class="btn btn-danger btn-sm btn-delete" data-id="<%= item.id %>">Delete</button>
+                  <button class="btn btn-danger btn-sm btn-delete" data-id="<%= item.productId %>">Delete</button>
                 </div>
               </div>
             </div>

@@ -17,4 +17,20 @@ router.post('/add-to-cart', (req, res, next) => {
   addToCart(req, res, next);
 });
 
+// Route để hiển thị giỏ hàng của buyer
+router.get('/cart', (req, res, next) => {
+  req.currentPath = '/buyer/cart';
+  renderBuyerCart(req, res, next);
+});
+
+// Route để cập nhật số lượng sản phẩm trong giỏ hàng
+router.post('/cart/update/:id', (req, res, next) => {
+  updateCartQuantity(req, res, next);
+});
+
+// Route để xóa sản phẩm khỏi giỏ hàng
+router.post('/cart/delete/:id', (req, res, next) => {
+  deleteCartItem(req, res, next);
+});
+
 module.exports = router;
