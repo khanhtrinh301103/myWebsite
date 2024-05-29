@@ -31,18 +31,19 @@ h1 {
 h5 {
   font-size: 20px;
   font-weight: bold;
-  color: #62a6ff;
+  color: #000000;
   text-transform: capitalize;
 }
 
 strong {
-  color: #6cb3ee;
+  color: #000000;
 }
 
 .navbar-brand {
-  font-size: 1.5rem;
+  font-size: 1.5rem;  
   padding-left: 10px;
   text-transform: capitalize;
+  font-weight: bolder;
 }
 
 .navbar-collapse {
