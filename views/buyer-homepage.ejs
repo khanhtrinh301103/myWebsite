@@ -158,7 +158,7 @@
       const productImage = productElement.querySelector('img').cloneNode(true);
       const productRect = productElement.getBoundingClientRect();
 
-      productImage.style.position = 'absolute';
+      productImage.style.position = 'fixed';
       productImage.style.top = `${productRect.top}px`;
       productImage.style.left = `${productRect.left}px`;
       productImage.style.width = `${productRect.width}px`;
