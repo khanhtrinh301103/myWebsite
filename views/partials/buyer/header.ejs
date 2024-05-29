@@ -6,7 +6,7 @@
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item <%= currentPath === '/buyer/homepage' ? 'active' : '' %>">
-        <a class="nav-link" href="/buyer/homepage">Home <span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="/buyer/homepage">Home</a>
       </li>
       <li class="nav-item <%= currentPath === '/buyer/shop' ? 'active' : '' %>">
         <a class="nav-link" href="#">Shop</a>
@@ -21,13 +21,14 @@
         <a class="nav-link" href="#">Chat</a>
       </li>
       <li class="nav-item <%= currentPath === '/buyer/profile' ? 'active' : '' %>">
-        <a class="nav-link" href="#">Profile</a>
+        <a class="nav-link" href="/buyer/profile">Profile</a>
       </li>
     </ul>
     <form class="form-inline my-2 my-lg-0">
       <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
       <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
     </form>
+
     <!-- Popsup UI -->
     <ul class="navbar-nav ml-auto">
       <li class="nav-item dropdown">

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Buyer Profile</title>
+  <!-- Bootstrap CSS -->
+  <link href="/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/css/profile.css" rel="stylesheet">
+  <link href="/css/buyer-homepage.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+  <div class="d-flex flex-column min-vh-100">
+    <%- include('../partials/buyer/header.ejs', { user: user, currentPath }) %>
+
+    <div class="container mt-4 flex-grow-1">
+      <h1>Profile</h1>
+      <div class="card mb-4">
+        <div class="card-body">
+          <h5 class="card-title">Profile Information</h5>
+          <p class="card-text"><strong>Email:</strong> <%= user.email %></p>
+          <p class="card-text"><strong>Full Name:</strong> <%= user.fullName %></p>
+          <p class="card-text"><strong>Phone Number:</strong> <%= user.phoneNumber %></p>
+          <p class="card-text"><strong>Username:</strong> <%= user.username %></p>
+          <p class="card-text"><strong>Role:</strong> <%= user.role %></p>
+        </div>
+      </div>
+      <a href="/auth/logout" class="btn btn-danger">Logout</a>
+    </div>
+
+    <%- include('../partials/buyer/footer.ejs') %>
+  </div>
+
+  <!-- Bootstrap JS and dependencies -->
+  <script src="/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
