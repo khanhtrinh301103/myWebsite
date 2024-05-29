@@ -8,96 +8,100 @@
   <link href="/css/bootstrap.min.css" rel="stylesheet">
   <link href="/css/buyer-cart.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+  <link href="/css/buyer-homepage.css" rel="stylesheet">
 </head>
 <body>
-  <%- include('../partials/buyer/header.ejs', { user: user, currentPath }) %>
+  <div class="d-flex flex-column min-vh-100">
+    <%- include('../partials/buyer/header.ejs', { user: user, currentPath }) %>
 
-  <div class="container mt-4">
-    <h1>Shopping Cart</h1>
-    <div class="cart-section">
-      <div class="cart-table-container">
-        <table class="table table-bordered cart-table">
-          <thead>
-            <tr>
-              <th>Product</th>
-              <th>Price</th>
-              <th>Quantity</th>
-              <th>Total</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% cartItems.forEach(function(item) { %>
+    <main class="container mt-4 flex-grow-1">
+      <h1>Shopping Cart</h1>
+      <div class="cart-section">
+        <div class="cart-table-container">
+          <table class="table table-bordered cart-table">
+            <thead>
               <tr>
-                <td>
-                  <div class="d-flex align-items-center">
-                    <div class="product-image">
-                      <img src="<%= item.productImage %>" alt="<%= item.productName %>">
-                    </div>
-                    <div class="product-info">
-                      <h5><%= item.productName %></h5>
-                      <p>Category: <%= item.category %></p>
-                      <p>Interior Style: <%= item.interiorStyle %></p>
-                      <p>Seller: <%= item.fullName %></p>
-                    </div>
-                  </div>
-                </td>
-                <td>$<%= item.price %></td>
-                <td>
-                  <div class="d-flex justify-content-center align-items-center">
-                    <button class="btn btn-secondary btn-sm btn-decrease" data-id="<%= item.id %>">-</button>
-                    <input type="number" class="form-control text-center mx-2 quantity-input" data-id="<%= item.id %>" value="<%= item.quantity %>" min="1" style="width: 60px;">
-                    <button class="btn btn-secondary btn-sm btn-increase" data-id="<%= item.id %>">+</button>
-                  </div>
-                </td>
-                <td>$<%= (item.price * item.quantity).toFixed(2) %></td>
-                <td>
-                  <button class="btn btn-danger btn-sm btn-delete" data-id="<%= item.id %>">&times;</button>
-                </td>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Total</th>
+                <th>Action</th>
               </tr>
-            <% }); %>
-          </tbody>
-        </table>
-        <div class="cart-buttons mt-4">
-          <a href="/buyer/homepage" class="btn btn-secondary">Continue Shopping</a>
-          <div>
-            <button class="btn btn-danger" id="clear-cart">Clear Cart</button>
-            <button class="btn btn-primary" id="update-cart">Update Cart</button>
+            </thead>
+            <tbody>
+              <% cartItems.forEach(function(item) { %>
+                <tr>
+                  <td>
+                    <div class="d-flex align-items-center">
+                      <div class="product-image">
+                        <img src="<%= item.productImage %>" alt="<%= item.productName %>">
+                      </div>
+                      <div class="product-info">
+                        <h5><%= item.productName %></h5>
+                        <p>Category: <%= item.category %></p>
+                        <p>Interior Style: <%= item.interiorStyle %></p>
+                        <p>Seller: <%= item.fullName %></p>
+                      </div>
+                    </div>
+                  </td>
+                  <td>$<%= item.price %></td>
+                  <td>
+                    <div class="d-flex justify-content-center align-items-center">
+                      <button class="btn btn-secondary btn-sm btn-decrease" data-id="<%= item.id %>">-</button>
+                      <input type="number" class="form-control text-center mx-2 quantity-input" data-id="<%= item.id %>" value="<%= item.quantity %>" min="1" style="width: 60px;">
+                      <button class="btn btn-secondary btn-sm btn-increase" data-id="<%= item.id %>">+</button>
+                    </div>
+                  </td>
+                  <td>$<%= (item.price * item.quantity).toFixed(2) %></td>
+                  <td>
+                    <button class="btn btn-danger btn-sm btn-delete" data-id="<%= item.id %>">&times;</button>
+                  </td>
+                </tr>
+              <% }); %>
+            </tbody>
+          </table>
+          <div class="cart-buttons mt-4">
+            <a href="/buyer/homepage" class="btn btn-secondary">Continue Shopping</a>
+            <div>
+              <button class="btn btn-danger" id="clear-cart">Clear Cart</button>
+              <button class="btn btn-primary" id="update-cart">Update Cart</button>
+            </div>
+          </div>
+        </div>
+        <div class="checkout-container">
+          <div class="total-summary">
+            <div class="summary-item">
+              <span>Subtotal</span>
+              <span id="subtotal">$0.00</span>
+            </div>
+            <div class="summary-item">
+              <span>Tax</span>
+              <span id="tax">$0.00</span>
+            </div>
+            <div class="summary-item">
+              <span>Shipping</span>
+              <span id="shipping">Free shipping</span>
+            </div>
+            <div class="summary-item">
+              <span>Grand Total</span>
+              <span id="grand-total">$0.00</span>
+            </div>
+            <small>Shipping & taxes calculated at checkout</small>
+            <div class="form-check mt-2">
+              <input class="form-check-input" type="checkbox" id="terms-check">
+              <label class="form-check-label" for="terms-check">I agree with the terms and conditions</label>
+            </div>
+            <button class="btn checkout-btn mt-3" id="proceed-checkout" disabled>Proceed to Checkout</button>
+            <div class="mt-3 text-center">
+              <img src="/images/payment-img.jpg" alt="Payment Options">
+            </div>
           </div>
         </div>
       </div>
-      <div class="checkout-container">
-        <div class="total-summary">
-          <div class="summary-item">
-            <span>Subtotal</span>
-            <span id="subtotal">$0.00</span>
-          </div>
-          <div class="summary-item">
-            <span>Tax</span>
-            <span id="tax">$0.00</span>
-          </div>
-          <div class="summary-item">
-            <span>Shipping</span>
-            <span id="shipping">Free shipping</span>
-          </div>
-          <div class="summary-item">
-            <span>Grand Total</span>
-            <span id="grand-total">$0.00</span>
-          </div>
-          <small>Shipping & taxes calculated at checkout</small>
-          <div class="form-check mt-2">
-            <input class="form-check-input" type="checkbox" id="terms-check">
-            <label class="form-check-label" for="terms-check">I agree with the terms and conditions</label>
-          </div>
-          <button class="btn checkout-btn mt-3" id="proceed-checkout" disabled>Proceed to Checkout</button>
-          <div class="mt-3 text-center">
-            <img src="/images/payment-img.jpg" alt="Payment Options">
-          </div>
-        </div>
-      </div>
-    </div>
+    </main>
+
+    <%- include('../partials/buyer/footer.ejs') %>
   </div>
-  <%- include('../partials/buyer/footer.ejs') %>
   <!-- Bootstrap JS and dependencies -->
   <script src="/js/bootstrap.bundle.min.js"></script>
   <script src="/js/buyer-cart.js"></script>

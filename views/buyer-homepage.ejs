@@ -9,13 +9,6 @@
   <!-- Font Awesome CSS từ CDN -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
   <link href="/css/buyer-homepage.css" rel="stylesheet">
-  <style>
-    .flying-to-cart {
-      position: absolute;
-      z-index: 1000;
-      transition: transform 1s ease, opacity 1s ease;
-    }
-  </style>
 </head>
 <body>
   <%- include('partials/buyer/header.ejs', { user: user, currentPath: currentPath }) %>
@@ -23,12 +16,90 @@
   <!-- Banner Slider -->
   <%- include('partials/buyer/banner.ejs') %>
 
-  <div class="container mt-4">
-    <h1>Furniture Shop</h1>
-    <div class="row">
-      <div class="col-md-3">
-        <%- include('partials/buyer/filter.ejs') %>
+  <!-- Categories Section -->
+  <div class="category-section">
+    <div class="container">
+      <h2>Our Categories</h2>
+      <p>From home to contract, get inspired and design!</p>
+      <div class="row">
+        <div class="col-md-2">
+          <div class="category-card">
+            <img src="../images/beds.jpg" alt="Beds" class="img-fluid">
+            <p>Beds</p>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="category-card">
+            <img src="../images/chairs.webp" alt="Chairs" class="img-fluid">
+            <p>Chairs</p>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="category-card">
+            <img src="../images/dressers.webp" alt="Dressers" class="img-fluid">
+            <p>Dressers</p>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="category-card">
+            <img src="../images/lamps.webp" alt="Lamps" class="img-fluid">
+            <p>Lamps</p>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="category-card">
+            <img src="../images/tables.webp" alt="Tables" class="img-fluid">
+            <p>Tables</p>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="category-card">
+            <img src="../images/sofas.webp" alt="Sofas" class="img-fluid">
+            <p>Sofas</p>
+          </div>
+        </div>
       </div>
+    </div>
+  </div>
+
+  <!-- Intro Section -->
+  <div class="container intro-section mt-4">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="intro-card">
+          <img src="/images/intro1.jpg" alt="Enhance Your Living">
+          <div class="overlay">
+            <h3>Enhance Your Living</h3>
+            <button>Shop Now</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="intro-card">
+          <img src="../images/intro2.webp" alt="Discover Modern Elegance">
+          <div class="overlay">
+            <h3>Discover Modern Elegance</h3>
+            <button>Shop Now</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-4">
+      <div class="col-md-12">
+        <div class="intro-card">
+          <img src="../images/intro3.webp" alt="Create Your Dream Home">
+          <div class="overlay">
+            <h3>Create Your Dream Home</h3>
+            <button>See More</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container mt-4">
+    <h1>Our latest items!</h1>
+    <div class="row">
       <div class="col-md-9">
         <div class="row">
           <% products.forEach(function(product) { %>
