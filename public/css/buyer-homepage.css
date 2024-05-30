@@ -133,6 +133,9 @@ strong {
 .navbar {
   display: flex;
   justify-content: center;
+  position: sticky;
+  top: 0;
+  z-index: 1030;
 }
 
 .navbar .container-fluid {
@@ -310,4 +313,79 @@ footer hr {
 
 footer .border-top {
   border-top: 1px solid #e9ecef;
+}
+
+.contact-section {
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+  background-color: #EBEBE9;
+}
+
+.contact-section .contact-image {
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.contact-section .contact-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.contact-section .contact-form {
+  width: 50%;
+  padding: 40px;
+  display: flex;
+  align-items: center;
+}
+
+.contact-section .contact-form form {
+  width: 100%;
+}
+
+.contact-section h2 {
+  margin-bottom: 20px;
+}
+
+.contact-section .form-group {
+  margin-bottom: 15px;
+}
+
+.contact-section .form-group input{
+  background-color: transparent;
+  width: 500px;
+}
+
+.contact-section .form-group textarea{
+  background-color: transparent;
+  width: 500px;
+}
+
+.contact-section .form-control {
+  border: none;
+  border-bottom: 1px solid #000;
+  border-radius: 0;
+  padding-left: 0;
+}
+
+.contact-section .form-control:focus {
+  box-shadow: none;
+  border-color: #000;
+}
+
+.contact-section .btn {
+  background-color: #000;
+  color: #fff;
+  border-radius: 40px;
+  padding: 10px 20px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.contact-section .btn:hover {
+  background-color: #fff;
+  color: #000;
+  border: 1px solid #000;
 }
