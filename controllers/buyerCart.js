@@ -11,6 +11,13 @@ const renderBuyerCart = async (req, res) => {
   }
 
   try {
+    const userDoc = await getDoc(doc(db, 'users', user.uid));
+    let userData = { username: user.username }; // Default to session username
+
+    if (userDoc.exists()) {
+      userData = userDoc.data();
+    }
+
     const cartCollectionRef = collection(db, 'cart');
     const cartSnapshot = await getDocs(cartCollectionRef);
     const cartItems = [];
@@ -29,7 +36,7 @@ const renderBuyerCart = async (req, res) => {
       }
     }
 
-    res.render('buyer/buyer-cart', { user, cartItems, currentPath: '/buyer/cart' });
+    res.render('buyer/buyer-cart', { user: userData, cartItems, currentPath: '/buyer/cart' });
   } catch (error) {
     console.error('Error fetching cart items:', error);
     res.redirect('/buyer/homepage');
