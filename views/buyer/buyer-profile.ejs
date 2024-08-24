@@ -11,9 +11,9 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
 </head>
 <body>
+  <%- include('../partials/buyer/header.ejs', { user: user, currentPath }) %>
   <div class="d-flex flex-column min-vh-100">
-    <%- include('../partials/buyer/header.ejs', { user: user, currentPath }) %>
-
+    
     <div class="container mt-4 flex-grow-1">
       <h1>Profile</h1>
       <div class="card mb-4">
