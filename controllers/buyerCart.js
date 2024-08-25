@@ -48,6 +48,11 @@ const updateCartQuantity = async (req, res) => {
   const { id } = req.params;
   const { quantity } = req.body;
 
+  // Kiểm tra nếu quantity là một số hợp lệ
+  if (typeof quantity !== 'number' || isNaN(quantity) || quantity <= 0) {
+    return res.status(400).send('Invalid quantity');
+  }
+
   try {
     const cartDocRef = doc(db, 'cart', id);
     const cartDoc = await getDoc(cartDocRef);
@@ -56,15 +61,16 @@ const updateCartQuantity = async (req, res) => {
       return res.status(404).send('Cart item not found');
     }
 
+    // Cập nhật số lượng sản phẩm trong Firestore
     await updateDoc(cartDocRef, { quantity });
     res.status(200).send('Quantity updated');
   } catch (error) {
-    console.error('Error updating quantity:', error.message, error.stack);
+    console.error('Error updating quantity:', error.message);
     res.status(500).send('Internal Server Error');
   }
 };
 
-// Delete cart item
+
 const deleteCartItem = async (req, res) => {
   const { id } = req.params;
 
@@ -78,6 +84,7 @@ const deleteCartItem = async (req, res) => {
     res.status(500).send('Internal Server Error');
   }
 };
+
 
 // Clear cart
 const clearCart = async (req, res) => {
@@ -112,3 +119,4 @@ const clearCart = async (req, res) => {
 };
 
 module.exports = { renderBuyerCart, updateCartQuantity, deleteCartItem, clearCart };
+

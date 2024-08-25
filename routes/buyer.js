@@ -3,7 +3,7 @@ const router = express.Router();
 const { renderBuyerHomepage, addToCart } = require('../controllers/buyerHomepage');
 const { renderBuyerCart, updateCartQuantity, deleteCartItem, clearCart } = require('../controllers/buyerCart');
 const { renderBuyerProfilePage } = require('../controllers/buyerProfile');
-const { getMiniCartData, updateMiniCartQuantity, deleteMiniCartItem, clearMiniCart } = require('../controllers/miniCart');
+const { renderMiniCart } = require('../controllers/miniCart');
 const { getAuth } = require('firebase/auth');
 const { collection, query, where, getDocs } = require('firebase/firestore');
 const { db } = require('../config/firebaseConfig');
@@ -26,9 +26,8 @@ router.get('/cart', (req, res, next) => {
 });
 
 // Route để lấy dữ liệu mini-cart
-router.get('/mini-cart', (req, res, next) => {
-  getMiniCartData(req, res);
-});
+// Route để render mini-cart
+router.get('/mini-cart', renderMiniCart);
 
 
 // Route để cập nhật số lượng sản phẩm trong giỏ hàng

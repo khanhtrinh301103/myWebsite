@@ -41,13 +41,21 @@ function updateSummary() {
   });
   
   async function updateQuantity(id, quantity) {
+    // Kiểm tra nếu quantity là số hợp lệ
+    quantity = parseInt(quantity);
+    
+    if (isNaN(quantity) || quantity <= 0) {
+      alert('Invalid quantity');
+      return;
+    }
+  
     try {
       const response = await fetch(`/buyer/cart/update/${id}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ quantity: parseInt(quantity) })
+        body: JSON.stringify({ quantity: quantity })
       });
   
       if (response.ok) {
@@ -59,9 +67,10 @@ function updateSummary() {
         alert('Error updating quantity');
       }
     } catch (error) {
-      console.error('Error updating quantity: ', error);
+      console.error('Error updating quantity:', error);
     }
   }
+  
   
   document.querySelectorAll('.btn-decrease').forEach(button => {
     button.addEventListener('click', function (e) {

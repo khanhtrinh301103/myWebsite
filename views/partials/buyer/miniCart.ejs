@@ -1,0 +1,103 @@
+<style>
+    .mini-cart-wrapper {
+      background-color: white;
+      border-radius: 8px;
+      padding: 15px;
+    }
+  
+    .mini-cart-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+  
+    .mini-cart-table td {
+      padding: 10px;
+      vertical-align: middle;
+    }
+  
+    .mini-product-image img {
+      border-radius: 4px;
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+    }
+  
+    .mini-product-info {
+      flex-grow: 1;
+    }
+  
+    .mini-text-muted {
+      color: #6c757d;
+    }
+  
+    .mini-total-summary {
+      font-weight: bold;
+      margin-top: 15px;
+    }
+  
+    .mini-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 14px;
+    }
+  
+    .mini-btn-block {
+      width: 100%;
+    }
+  
+    .mini-btn-increase, .mini-btn-decrease {
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      text-align: center;
+      padding: 0;
+      display: inline-block;
+    }
+  </style>
+  
+  <div class="mini-cart-wrapper">
+    <h5>Shopping Bag</h5>
+    <div class="mini-cart-section">
+      <div class="mini-cart-table-container">
+        <table class="table mini-cart-table">
+          <tbody>
+            <% cartItems.forEach(function(item) { %>
+              <tr>
+                <td>
+                  <div class="d-flex align-items-center">
+                    <div class="mini-product-image">
+                      <img src="<%= item.productImage %>" alt="<%= item.productName %>">
+                    </div>
+                    <div class="mini-product-info ml-3">
+                      <h6 class="mb-0"><%= item.productName %></h6>
+                      <p class="mini-text-muted mb-0">White</p> <!-- Bạn có thể thay đổi màu sắc thành dynamic -->
+                    </div>
+                  </div>
+                </td>
+                <td class="text-center">
+                  <button class="mini-btn mini-btn-outline-secondary mini-btn-sm mini-btn-increase" data-id="<%= item.id %>">+</button>
+                  <span class="mini-quantity mx-2"><%= item.quantity %></span>
+                  <button class="mini-btn mini-btn-outline-secondary mini-btn-sm mini-btn-decrease" data-id="<%= item.id %>">-</button>
+                </td>
+                <td class="text-right">
+                  $<%= (item.price * item.quantity).toFixed(2) %>
+                </td>
+                <td class="text-right">
+                  <button class="mini-btn mini-btn-danger mini-btn-sm mini-btn-delete" data-id="<%= item.id %>">&times;</button>
+                </td>
+              </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      </div>
+      <div class="mini-checkout-container mt-3">
+        <div class="mini-total-summary d-flex justify-content-between">
+          <span>Subtotal</span>
+          <span id="mini-subtotal">$<%= subtotal.toFixed(2) %></span>
+        </div>
+        <button class="mini-btn mini-btn-primary mini-btn-block mt-2" id="mini-view-cart">View Cart</button>
+        <button class="mini-btn mini-btn-success mini-btn-block mt-2" id="mini-checkout-btn">Checkout</button>
+      </div>
+    </div>
+  </div>
+  

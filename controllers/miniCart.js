@@ -1,8 +1,7 @@
 const { db } = require('../config/firebaseConfig');
 const { collection, getDocs, query, where } = require('firebase/firestore');
 
-// Lấy dữ liệu mini-cart
-const getMiniCartData = async (req, res) => {
+const renderMiniCart = async (req, res) => {
   const user = req.session.user;
 
   if (!user) {
@@ -29,11 +28,38 @@ const getMiniCartData = async (req, res) => {
       });
     });
 
-    res.json({ cartItems, subtotal });
+    res.render('partials/buyer/miniCart', { cartItems, subtotal });
   } catch (error) {
     console.error('Error fetching mini cart items:', error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
 
-module.exports = { getMiniCartData };
+const updateCartQuantity = async (req, res) => {
+  const { id } = req.params;
+  const { quantity } = req.body;
+
+  // Kiểm tra nếu quantity là một số hợp lệ
+  if (typeof quantity !== 'number' || isNaN(quantity) || quantity <= 0) {
+    return res.status(400).send('Invalid quantity');
+  }
+
+  try {
+    const cartDocRef = doc(db, 'cart', id);
+    const cartDoc = await getDoc(cartDocRef);
+
+    if (!cartDoc.exists()) {
+      return res.status(404).send('Cart item not found');
+    }
+
+    // Cập nhật số lượng sản phẩm trong Firestore
+    await updateDoc(cartDocRef, { quantity });
+    res.status(200).send('Quantity updated');
+  } catch (error) {
+    console.error('Error updating quantity:', error.message, error.stack);
+    res.status(500).send('Internal Server Error');
+  }
+};
+
+
+module.exports = { renderMiniCart };
