@@ -1,7 +1,9 @@
 document.addEventListener("DOMContentLoaded", function () {
   const cartDropdown = document.getElementById('cartDropdown');
 
-  cartDropdown.addEventListener('click', async function () {
+  cartDropdown.addEventListener('click', async function (event) {
+    // Ngăn dropdown tự động đóng
+    event.preventDefault();
     try {
       const response = await fetch('/buyer/mini-cart');
       const miniCartHTML = await response.text();
@@ -14,6 +16,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // Cập nhật các class tương tác với sự kiện
   document.addEventListener('click', async function (event) {
     if (event.target.classList.contains('mini-btn-decrease') || event.target.classList.contains('mini-btn-increase')) {
+      event.preventDefault();  // Ngăn dropdown đóng sau khi nhấp vào nút
       const id = event.target.dataset.id;
       const isIncrease = event.target.classList.contains('mini-btn-increase');
       
@@ -38,8 +41,21 @@ document.addEventListener("DOMContentLoaded", function () {
         });
   
         if (response.ok) {
+          // Cập nhật lại mini cart mà không đóng dropdown
           const miniCartHTML = await response.text();
           document.getElementById('mini-cart-container').innerHTML = miniCartHTML;
+
+          // Cập nhật số lượng trên trang giỏ hàng chính nếu có
+          const cartPageQuantityElement = document.querySelector(`.quantity-input[data-id="${id}"]`);
+          if (cartPageQuantityElement) {
+            cartPageQuantityElement.value = quantity;
+            const priceElement = cartPageQuantityElement.closest('tr').querySelector('td:nth-child(2)').textContent.replace('$', '');
+            const totalElement = cartPageQuantityElement.closest('tr').querySelector('td:nth-child(4)');
+            totalElement.textContent = `$${(parseFloat(priceElement) * quantity).toFixed(2)}`;
+
+            // Cập nhật lại tổng tiền, thuế, v.v. trên trang giỏ hàng chính
+            updateSummary();  // Hàm updateSummary có thể đã được định nghĩa trước đó trên trang giỏ hàng chính
+          }
         } else {
           console.error('Error updating quantity');
         }

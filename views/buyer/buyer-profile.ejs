@@ -6,27 +6,37 @@
   <title>Buyer Profile</title>
   <!-- Bootstrap CSS -->
   <link href="/css/bootstrap.min.css" rel="stylesheet">
-  <link href="/css/profile.css" rel="stylesheet">
+  <link href="/css/buyer-profile.css" rel="stylesheet">
   <link href="/css/buyer-homepage.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
 </head>
 <body>
   <%- include('../partials/buyer/header.ejs', { user: user, currentPath }) %>
-  <div class="d-flex flex-column min-vh-100">
-    
+  
+  <div class="d-flex flex-column min-vh-100 profile-page">
     <div class="container mt-4 flex-grow-1">
-      <h1>Profile</h1>
-      <div class="card mb-4">
-        <div class="card-body">
-          <h5 class="card-title">Profile Information</h5>
-          <p class="card-text"><strong>Email:</strong> <%= user.email %></p>
-          <p class="card-text"><strong>Full Name:</strong> <%= user.fullName %></p>
-          <p class="card-text"><strong>Phone Number:</strong> <%= user.phoneNumber %></p>
-          <p class="card-text"><strong>Username:</strong> <%= user.username %></p>
-          <p class="card-text"><strong>Role:</strong> <%= user.role %></p>
+      <div class="card profile-card mb-4">
+        <div class="card-body d-flex flex-row">
+          <div class="profile-photo-container">
+            <!-- Hiển thị ảnh đại diện từ URL của Firebase Storage -->
+            <img src="<%= user.profilePhotoUrl || 'https://via.placeholder.com/150' %>" alt="Profile Photo" class="profile-photo rounded-circle">
+
+            <!-- Form để thay đổi ảnh đại diện -->
+            <form id="profile-photo-form" enctype="multipart/form-data">
+              <input type="file" id="profile-photo-input" name="profilePhoto" accept="image/*" class="d-none">
+              <button type="button" class="btn btn-link change-photo-btn" id="change-photo-btn">Change Photo</button>
+            </form>
+          </div>
+          <div class="profile-info-container ml-4">
+            <h2><%= user.fullName %></h2>
+            <h6 class="text-muted"><%= user.role %></h6>
+            <p><strong>Email:</strong> <%= user.email %></p>
+            <p><strong>Phone Number:</strong> <%= user.phoneNumber %></p>
+            <p><strong>Username:</strong> <%= user.username %></p>
+            <a href="/auth/logout" class="btn btn-danger">Logout</a>
+          </div>
         </div>
       </div>
-      <a href="/auth/logout" class="btn btn-danger">Logout</a>
     </div>
 
     <%- include('../partials/buyer/footer.ejs') %>
@@ -34,5 +44,31 @@
 
   <!-- Bootstrap JS and dependencies -->
   <script src="/js/bootstrap.bundle.min.js"></script>
+  <script>
+    document.getElementById('change-photo-btn').addEventListener('click', () => {
+      document.getElementById('profile-photo-input').click();
+    });
+
+    document.getElementById('profile-photo-input').addEventListener('change', async function() {
+      const formData = new FormData();
+      formData.append('profilePhoto', this.files[0]);
+
+      try {
+        const response = await fetch('/buyer/profile/upload-photo', {
+          method: 'POST',
+          body: formData
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          document.querySelector('.profile-photo').src = data.photoUrl;  // Cập nhật ảnh đại diện mới
+        } else {
+          console.error('Failed to upload photo');
+        }
+      } catch (error) {
+        console.error('Error uploading photo:', error);
+      }
+    });
+  </script>
 </body>
 </html>
