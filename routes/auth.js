@@ -18,29 +18,33 @@ router.post('/login', async (req, res) => {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
 
-    // Lấy thông tin vai trò của người dùng từ Firestore
+    // Kiểm tra vai trò của người dùng và chuyển hướng đến trang tương ứng
     const userDoc = await getDoc(doc(db, "users", user.uid));
     const userData = userDoc.data();
 
-    // Lưu thông tin người dùng vào session
     req.session.user = {
       uid: user.uid,
       email: user.email,
       role: userData.role
     };
 
-    // Kiểm tra vai trò của người dùng và chuyển hướng đến trang tương ứng
     if (userData.role === 'seller') {
       res.redirect('/seller/homepage');
     } else if (userData.role === 'buyer') {
       res.redirect('/buyer/homepage');
     } else {
-      res.status(400).send('Invalid role');
+      req.flash('error', 'Invalid role');
+      res.redirect('/auth/login');
     }
   } catch (error) {
-    res.status(400).send('Login Failed: ' + error.message);
+    // Thay đổi thông báo lỗi thành dạng tùy chỉnh
+    req.flash('error', 'Incorrect email or password.');
+    res.redirect('/auth/login');
   }
 });
+  
+
+
 
 // Route để hiển thị trang đăng ký
 router.get('/register', (req, res) => {

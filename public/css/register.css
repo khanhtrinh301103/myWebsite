@@ -1,50 +1,119 @@
-body {
-    background-image: url('../images/register_background.jpg'); /* Đường dẫn đến hình ảnh nền */
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
+/* General Styles */
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: 'Arial', sans-serif;
 }
-  
-  .container {
-    background-color: rgba(236, 236, 236, 0.9);
-    padding: 2rem;
-    border-radius: 40px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+.register-wrapper {
+  display: flex;
+  height: 100vh;
+}
+
+/* Left side: Form */
+.register-left {
+  width: 50%;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 50px;
+}
+
+.register-content {
+  max-width: 400px;
+  text-align: center;
+}
+
+.logo {
+  max-width: 100px;
+  margin-bottom: 20px;
+}
+
+h2 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+
+p {
+  font-size: 1rem;
+  margin-bottom: 30px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-control {
+  border-radius: 50px;
+  padding: 15px 20px;
+  font-size: 1rem;
+}
+
+.register-btn {
+  width: 100%;
+  padding: 15px;
+  font-size: 1.1rem;
+  border-radius: 50px;
+  background-color: #00bfa5;
+  border: none;
+  color: white;
+}
+
+.register-btn:hover {
+  background-color: #1de9b6;
+}
+
+/* Right side: Information */
+.register-right {
+  width: 50%;
+  background: linear-gradient(to right, #00bfa5, #1de9b6);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 50px;
+}
+
+.register-info {
+  text-align: center;
+}
+
+.register-info h2 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+
+.register-info p {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+}
+
+.login-btn {
+  padding: 10px 30px;
+  font-size: 1.2rem;
+  color: #00bfa5;
+  background-color: white;
+  border-radius: 50px;
+  border: none;
+}
+
+.login-btn:hover {
+  background-color: #f0f0f0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .register-wrapper {
+    flex-direction: column;
   }
   
-  h2 {
-    text-align: center;
-    margin-bottom: 1.5rem;
-  }
-  
-  .form-group label {
-    font-weight: bold;
-  }
-  
-  .form-control {
-    border-radius: 40px;
-  }
-  
-  .btn-primary {
+  .register-left, .register-right {
     width: 100%;
-    margin-top: 1rem;
-    border-radius: 40px;
   }
   
-  p.mt-3 {
-    text-align: center;
+  .register-right {
+    padding: 30px;
   }
-  
-  p.mt-3 a {
-    color: #007bff;
-    text-decoration: none;
-  }
-  
-  p.mt-3 a:hover {
-    text-decoration: underline;
-  }
-  
+}

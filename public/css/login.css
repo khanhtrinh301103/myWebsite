@@ -1,49 +1,164 @@
-body {
-  background-image: url('../images/login_background.jpg'); /* Đường dẫn đến hình ảnh nền */
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
+/* Đảm bảo chiều cao của body và html là 100% */
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: 'Arial', sans-serif;
+}
+
+/* Wrapper để chia thành 2 cột với chiều cao 100% màn hình */
+.login-wrapper {
+  display: flex;
+  height: 100vh; /* Đảm bảo chiều cao toàn màn hình */
+}
+
+/* Bên trái: Form đăng nhập */
+.login-left {
+  width: 50%; /* Chiếm 50% màn hình */
+  background-color: white;
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
+  padding: 50px;
 }
 
-.container {
-  background-color: rgba(236, 236, 236, 0.9);
-  padding: 2rem;
-  border-radius: 40px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+.login-content {
+  max-width: 400px;
+  text-align: center;
+}
+
+.logo {
+  max-width: 100px;
+  margin-bottom: 20px;
 }
 
 h2 {
-  text-align: center;
-  margin-bottom: 1.5rem;
+  font-size: 2.5rem;
+  margin-bottom: 20px;
 }
 
-.form-group label {
-  font-weight: bold;
+p {
+  font-size: 1rem;
+  margin-bottom: 30px;
+}
+
+/* Social Media Buttons */
+.social-login {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.social-btn {
+  width: 30%;
+  padding: 10px;
+  border-radius: 50px;
+  font-size: 1rem;
+}
+
+.social-btn i {
+  margin-right: 5px;
+}
+
+.separator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 20px 0;
+  font-size: 0.9rem;
+  color: #aaa;
+}
+
+.separator::before, .separator::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background-color: #ccc;
+  margin: 0 10px; /* Tạo khoảng trống hợp lý giữa text và các đường kẻ */
+}
+
+
+.separator::before {
+  margin-right: 10px;
+}
+
+.separator::after {
+  margin-left: 10px;
+}
+
+.form-group {
+  margin-bottom: 20px;
 }
 
 .form-control {
-  border-radius: 40px;
+  border-radius: 50px;
+  padding: 15px 20px;
+  font-size: 1rem;
 }
 
-.btn-primary {
+.login-btn {
   width: 100%;
-  margin-top: 1rem;
-  border-radius: 40px;
+  padding: 15px;
+  font-size: 1.1rem;
+  border-radius: 50px;
+  background-color: #00bfa5;
+  border: none;
+  color: white;
 }
 
-p.mt-3 {
+.login-btn:hover {
+  background-color: #1de9b6;
+}
+
+/* Bên phải: Phần đăng ký */
+.login-right {
+  width: 50%; /* Chiếm 50% màn hình */
+  background: linear-gradient(to right, #00bfa5, #1de9b6);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 50px;
+}
+
+.signup-content {
   text-align: center;
 }
 
-p.mt-3 a {
-  color: #007bff;
-  text-decoration: none;
+.signup-content h2 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
 }
 
-p.mt-3 a:hover {
-  text-decoration: underline;
+.signup-content p {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+}
+
+.signup-btn {
+  padding: 10px 30px;
+  font-size: 1.2rem;
+  color: #00bfa5;
+  background-color: white;
+  border-radius: 50px;
+  border: none;
+}
+
+.signup-btn:hover {
+  background-color: #f0f0f0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .login-wrapper {
+    flex-direction: column;
+  }
+  
+  .login-left, .login-right {
+    width: 100%;
+  }
+  
+  .login-right {
+    padding: 30px;
+  }
 }

@@ -3,6 +3,7 @@ const app = express();
 const path = require('path');
 const bodyParser = require('body-parser');
 const session = require('express-session');
+const flash = require('connect-flash');  // Thêm connect-flash
 const authRoutes = require('./routes/auth');
 const sellerRoutes = require('./routes/seller');
 const buyerRoutes = require('./routes/buyer');
@@ -15,13 +16,18 @@ app.use(session({
   resave: false,
   saveUninitialized: true
 }));
-app.use(express.static(path.join(__dirname, 'public')));
 
-// Middleware to set currentPath
+// Thêm flash middleware
+app.use(flash());
+
+// Middleware để truyền các biến global vào view
 app.use((req, res, next) => {
-  res.locals.currentPath = req.path;
+  res.locals.error = req.flash('error');  // Lấy thông báo lỗi từ flash và truyền vào view
   next();
 });
+
+
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Set view engine
 app.set('view engine', 'ejs');
