@@ -22,7 +22,12 @@ const renderBuyerHomepage = async (req, res) => {
         products.push({ ...doc.data(), id: doc.id });
       });
 
-      res.render('buyer-homepage', { user: userData, products });
+      // Thêm currentPath vào render
+      res.render('buyer-homepage', { 
+        user: userData, 
+        products: products, 
+        currentPath: req.currentPath // Truyền currentPath vào view
+      });
     } else {
       res.redirect('/auth/login');
     }
